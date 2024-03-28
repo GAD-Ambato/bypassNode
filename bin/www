@@ -1,0 +1,91 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('middleware:server');
+var http = require('http');
+
+var https = require('https');
+var fs= require('fs');
+
+//Habilitar para Pruebas
+var port = '4000'
+app.set('port', port);
+var servers = http.createServer(app);
+servers.listen(port);
+servers.on('listening', onListening);
+servers.on('error', onError)
+
+/**
+var options = {                   
+  key: fs.readFileSync('/home/certs/ambato.key'),
+  cert: fs.readFileSync('/home/certs/ambato.crt'),
+  ca: fs.readFileSync('/home/certs/intermediate.crt')
+};
+var servers = https.createServer(options,app);
+servers.listen(process.env.PORT);
+ */
+
+// server.listen(port);
+//servers.on('error', onError);
+//
+
+
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+// var port = normalizePort(process.env.PORT || '3000');
+// app.set('port', port);
+// var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+
+
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = servers.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
